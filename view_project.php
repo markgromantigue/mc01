@@ -42,7 +42,7 @@
     <link rel="stylesheet" href="css/bootstrap.min.css"charset="utf-8">
     <link rel="stylesheet" href="css/bootstrap-theme.min.css"charset="utf-8">
     <link rel="stylesheet" href="css/landing-page.css" charset="utf-8">
-    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.js"></script>
     <script>
             function logoutFunction(){
                 $("input#logout").val(1);

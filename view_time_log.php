@@ -7,6 +7,16 @@ if(isset($_GET['user_id'])){
 ?>
 <html>
 <head>
+<script src="js/jquery.js"></script>
+<script>
+	$(document).ready(function(){
+		$("#addRow").on("click", function(){
+			$("#inputRows").append(
+				'<tr><td><input type="date" name="date[]" required></td><td><input type="time" name="start[]" required></td><td><input type="time" name="stop[]" required></td><td><input type="number" name="interrupt[]" min="0" required></td><td></td><td><input type="text" name="phase[]" required></td><td><input type="text" name="comments[]" required></td></tr>'
+				);
+		});
+	});
+</script>
 <style type="text/css">
 .center {
     margin: auto;
@@ -15,11 +25,13 @@ if(isset($_GET['user_id'])){
 }
 </style>
 </head>
+<body>
+<form action="add_time_log.php?user_id=<?php echo $userId?>&project_id=<?php echo $projectId?>" method="POST">
 <a href="view_project.php?user_id=<?php echo $userId?>&project_id=<?php echo $projectId?>">Go Back</a>
 <div class="center">
 <center><h1>Time Log Entries</h1></center>
 </div>
-</html>
+
 
 <?php
 
@@ -50,12 +62,21 @@ else
     echo "<table border=1 style=width:100%>\n<tr>\n<td>Date</td>\n<td>Start</td>\n<td>Stop</td>\n\n<td>Interruption Time</td>\n<td>Delta Time</td>\n<td>Phase</td>\n<td>Comments</td></tr>\n";
 
     while ($row = mysqli_fetch_array($result)) {
-		echo "<tr>\n<td>" . $row["date"] . "</td>\n<td>" . $row["start"] . "</td>\n<td>" . $row["stop"] . "</td>\n<td>" . $row["interruption_time"] . "</td>\n<td>" . $row["delta_time"] . "</td>\n<td>" . $row["phase"] . "</td>\n<td>" . $row["comments"] . "</td>\n<td><a href='edit_time_log.php?time_log_id=".$row['time_log_id']."'><button class='btn' type='button'><strong><center>Edit</center></strong></button></a></td>\n<td><a href='view_time_log.php?time_log_id=".$row['time_log_id']."'" ?> onclick="return confirm('Are you sure you want to delete this message?')";<?php echo "><button class='btn' type='button'><strong><center>Delete</center></strong></button></a></td></tr>\n";
-	}
-
+		echo "<tr>\n<td>" . $row["date"] . "</td>\n<td>" . $row["start"] . "</td>\n<td>" . $row["stop"] . "</td>\n<td>" . $row["interruption_time"] . "</td>\n<td>" . $row["delta_time"] . "</td>\n<td>" . $row["phase"] . "</td>\n<td>" . $row["comments"] . "</td>\n<td><a href='edit_time_log.php?time_log_id=".$row['time_log_id']."&user_id=".$userId."&project_id=".$projectId."'><button class='btn' type='button'><strong><center>Edit</center></strong></button></a></td>\n<td><a href='view_time_log.php?time_log_id=".$row['time_log_id']."&user_id=".$userId."&project_id=".$projectId."'" ?> onclick="return confirm('Are you sure you want to delete this message?')";<?php echo "><button class='btn' type='button'><strong><center>Delete</center></strong></button></a></td></tr>\n";
+	}?>
+    <button type="button" id="addRow" style="float: right; margin-right: 15px;">Add Row</button>
+    <br><br>
+    
+    <tbody id="inputRows">
+    </tbody>
+    
+    <?php
     echo "</table>";
-    echo "</div";
+    echo "</div>";
 }
 
 ?>
-
+    <input type="submit" value="Submit" style="float: right; margin-right: 210px;">
+    </form>
+ </body>
+</html>

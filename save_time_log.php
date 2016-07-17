@@ -1,5 +1,10 @@
 <?php
 
+if(isset($_GET['user_id'])){
+		$userId = $_GET['user_id'];
+        $projectId = $_GET['project_id'];
+}
+
 //date_default_timezone_set("Asia/Manila");
 $con = mysqli_connect('localhost', 'root', '1234', 'advanse_mc01');
 
@@ -20,6 +25,6 @@ else
 	}
     
 
-    header("Location: view_time_log.php?msg=edit");
+    header("Location: view_time_log.php?msg=edit&user_id=$userId&project_id=$projectId");
 }
 ?>

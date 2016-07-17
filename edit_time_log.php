@@ -5,6 +5,11 @@ if (mysqli_connect_errno()) {
 }
 else
 {
+
+    if(isset($_GET['user_id'])){
+		$userId = $_GET['user_id'];
+        $projectId = $_GET['project_id'];
+    }
     if(isset($_GET['time_log_id'])){
         $time_log_id = $_GET['time_log_id'];
         $sql = "SELECT time_log_id ,date, phase, start, stop, interruption_time, delta_time, comments FROM time_recording_log WHERE time_log_id = '$time_log_id'";
@@ -43,11 +48,11 @@ table {
 
 <body>
 <div class="center">
-<form action="view_time_log.php" method="POST">
+<form action="view_time_log.php?user_id=<?php echo $userId?>&project_id=<?php echo $projectId?>" method="POST">
 <input type="submit" value="View Existing Time Log"/>
 </form>
 <h1>Edit Time Log</h1>
-<form action="save_time_log.php" method="POST">
+<form action="save_time_log.php?user_id=<?php echo $userId?>&project_id=<?php echo $projectId?>" method="POST">
 <table>
 
 <tr>
@@ -72,7 +77,7 @@ table {
 </tbody>
 	
 </table>
-<!--<input type="hidden" name="log_id" value="<?php echo $_GET['time_log_id']; ?>" />-->
+<input type="hidden" name="log_id" value="<?php echo $_GET['time_log_id']; ?>" />
 <input type="submit" value="Save Changes" style="float: right; margin-right: 15px;">
 
 </form>
