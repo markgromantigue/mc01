@@ -1,7 +1,5 @@
 <?php
-
 $con = mysqli_connect('localhost', 'root', '1234', 'advanse_mc01');
-
 if (mysqli_connect_errno()) {
     echo "Failed" . mysqli_connect_error();
 }
@@ -12,7 +10,6 @@ else
         $sql = "SELECT time_log_id ,date, phase, start, stop, interruption_time, delta_time, comments FROM time_recording_log WHERE time_log_id = '$time_log_id'";
         $result = mysqli_query($con, $sql);
     }
-
     while ($row = mysqli_fetch_array($result)) {
 		$time_log_id = $row["time_log_id"];
         $date = $row["date"];
@@ -23,7 +20,6 @@ else
         $comments = $row["comments"];
 	}
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -36,11 +32,9 @@ else
     width: 70%;
     padding: 10px;
 }
-
 h1 {
 	text-align: center;
 }
-
 table {
 	width: 100%;
 }

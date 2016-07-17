@@ -18,9 +18,32 @@ version 1.0
 	}
     
     $myusername = $_SESSION['myusername'];
-    $strSQL = "SELECT * FROM users WHERE name = '" . $myusername . "'";
+    $strSQL = "SELECT * FROM users as u, project as p WHERE u.user_id=p.user_id AND name = '" . $myusername . "'";
     $rs = mysql_query($strSQL);
     $row = mysql_fetch_array($rs);
+    
+    $strSQL2 = "SELECT * FROM `base_program` WHERE `user_id` = '" . $userId . "' AND `project_id` = '" . $projectId . "'";
+    $rs2 = mysql_query($strSQL2);
+    $row2 = mysql_fetch_array($rs2);
+    
+    $strSQL3 = "SELECT * FROM `projected_loc` WHERE `user_id` = '" . $userId . "' AND `project_id` = '" . $projectId . "'";
+    $rs3 = mysql_query($strSQL3);
+    $row3 = mysql_fetch_array($rs3);
+    $plocCount = mysql_num_rows($rs3);
+    
+    $strSQL4 = "SELECT * FROM `new_objects` WHERE `user_id` = '" . $userId . "' AND `project_id` = '" . $projectId . "'";
+    $rs4 = mysql_query($strSQL4);
+    $row4 = mysql_fetch_array($rs4);
+    $objectCount = mysql_num_rows($rs4);
+    
+    $strSQL5 = "SELECT * FROM `size_estimates` WHERE `user_id` = '" . $userId . "' AND `project_id` = '" . $projectId . "'";
+    $rs5 = mysql_query($strSQL5);
+    $row5 = mysql_fetch_array($rs5);
+    
+    $strSQL6 = "SELECT * FROM `reused_objects` WHERE `user_id` = '" . $userId . "' AND `project_id` = '" . $projectId . "'";
+    $rs6 = mysql_query($strSQL6);
+    $row6 = mysql_fetch_array($rs6);
+    
 
     if(isset($_GET['msg'])){
 		$msg = $_GET['msg'];
@@ -32,24 +55,32 @@ version 1.0
 		}
     }
     
-    $query="SELECT * from users c, project o WHERE c.user_id = o. user_id AND o. user_id = $userId AND o. project_id = $projectId";
-    $result=mysql_query($query);
-    $row2 = mysql_fetch_array($result);
-    if($row2['ST'] == 1){
-        header("Location:viewSizeTemplate.php?user_id=$userId&project_id=$projectId");
-    }
 ?>
 <html>
     <head>
         <title>Size Estimating Template</title>
         <script src="js/jquery.js"></script>
         <script src="js/sizeEstimatingTemplate.js"></script>
+        <script>
+        function addRow(){
+            var i=0;
+            for(i=0;i<<?php echo $plocCount;?>;i++){
+                $('#myTable tr.addMore').before("<tr style='height: 35px;'><td style='width: 284px; height: 35px;'><input type='text' name='BA[]' id='base" + i + "' style='width: 280px;' value='<?php echo $row3['base_additions'];?>' readonly></td><td style='width: 31px; height: 35px;'><p>&nbsp;</p></td><td style='width: 139px; height: 35px;'><center><select name='type[]' id='x" + i + "'  data-validation='required' data-validation-depends-on='base" + i + "'><option value='' disabled selected><?php echo $row3['type'];?></option><option value='logic'>Logic</option><option value='io'>Input/Output</option><option value='calculation'>Calculation</option><option value='text'>Text</option><option value='data'>Data</option><option value='setup'>Set-Up</option></select></center></td><td style='width: 31px; height: 35px;'><p><strong>&nbsp;</strong></p></td><td style='width: 139px; height: 35px;'><input type='text' name='methods[]' id='item" + i + "' value='<?php echo $row3['methods'];?>' readonly></td><td style='width: 31px; height: 35px;'><p><strong>&nbsp;</strong></p></td><td style='width: 171px; height: 35px;'><center><select name='size[]' id='y" + i + "' data-validation='required' data-validation-depends-on='x" + i + "'><option value='' disabled selected><?php echo $row3['relative_size'];?></option><option value='verysmall'>Very Small</option><option value='small'>Small</option><option value='medium'>Medium</option><option value='large'>Large</option><option value='verylarge'>Very Large</option></select></center></td><td style='width: 10px; height: 35px;'><p><strong>&nbsp;</strong></p></td><td style='idth: 156px; height: 35px;'><input type='text' name='loc[]' class='toAdd' id='total" + i + "'  value='<?php echo $row3['loc'];?>' readonly></td></tr>");
+                $('.toAdd, .toAdd2').trigger('click');
+                $('.toAdd, .toAdd2').trigger('keyup');
+            }
+            for(i=0;i<<?php echo $objectCount;?>;i++){
+                $('#myTable tr.addMoreObjectRow').before("<tr style='height: 35px;'><td style='width: 284px; height: 35px;'><input type='text' name='BA[]' id='base" + i + "' style='width: 280px;' value='<?php echo $row4['base_additions'];?>' readonly></td><td style='width: 31px; height: 35px;'><p>&nbsp;</p></td><td style='width: 139px; height: 35px;'><center><select name='type[]' id='x" + i + "'  data-validation='required' data-validation-depends-on='base" + i + "'><option value='' disabled selected><?php echo $row4['type'];?></option><option value='logic'>Logic</option><option value='io'>Input/Output</option><option value='calculation'>Calculation</option><option value='text'>Text</option><option value='data'>Data</option><option value='setup'>Set-Up</option></select></center></td><td style='width: 31px; height: 35px;'><p><strong>&nbsp;</strong></p></td><td style='width: 139px; height: 35px;'><input type='text' name='methods[]' id='item" + i + "' value='<?php echo $row4['methods'];?>' readonly></td><td style='width: 31px; height: 35px;'><p><strong>&nbsp;</strong></p></td><td style='width: 171px; height: 35px;'><center><select name='size[]' id='y" + i + "' data-validation='required' data-validation-depends-on='x" + i + "'><option value='' disabled selected><?php echo $row4['relative_size'];?></option><option value='verysmall'>Very Small</option><option value='small'>Small</option><option value='medium'>Medium</option><option value='large'>Large</option><option value='verylarge'>Very Large</option></select></center></td><td style='width: 10px; height: 35px;'><p><strong>&nbsp;</strong></p></td><td style='idth: 156px; height: 35px;'><input type='text' name='loc[]' class='toAdd2' id='total" + i + "'  value='<?php echo $row4['loc'];?>' readonly></td></tr>");
+                $('.toAdd, .toAdd2').trigger('click');
+                $('.toAdd, .toAdd2').trigger('keyup');
+            }
+        }
+        </script>
     </head>
-    <body>
+    <body  onload="addRow();">
         <center>
             <br>
             <h2 style="text-align: center;"><strong>Size Estimating Template</strong></h2>
-            <!--
             <p style="text-align: center;">&nbsp;</p>
             <table style="height: 84px; width: 1053px;">
                 <tbody>
@@ -58,13 +89,13 @@ version 1.0
                             <p><strong>Student</strong></p>
                         </td>
                         <td style="width: 767px;">
-                            <p><u>Someone Someone S. Someone</u></p>
+                            <p><u><?php echo $row['name'];?></u></p>
                         </td>
                         <td style="width: 91px;">
                             <p><strong>Date</strong></p>
                         </td>
                         <td style="width: 81px;">
-                            <p><u>the/date/today</u></p>
+                            <p><u><?php echo $row['date'];?></u></p>
                         </td>
                     </tr>
                     <tr>
@@ -72,13 +103,13 @@ version 1.0
                             <p><strong>Professor</strong></p>
                         </td>
                         <td style="width: 767px;">
-                            <p><u>Prof. Someone Someone</u></p>
+                            <p><u><?php echo $row['professor'];?></u></p>
                         </td>
                         <td style="width: 91px;">
                             <p><strong>Program #</strong></p>
                         </td>
                         <td style="width: 81px;">
-                            <p><u>Something</u></p>
+                            <p><u><?php echo $row['program_no'];?></u></p>
                         </td>
                     </tr>
                 </tbody>
@@ -86,8 +117,6 @@ version 1.0
 
             <p>&nbsp;</p>
             <p>&nbsp;</p>
-            -->
-            <form name="myform" id="myform" role="form" action="submitSizeEstimate.php?user_id=<?php echo $userId?>&project_id=<?php echo $projectId?>" method="POST">
                 <table style="height: 1530px; width: 1050px;" id="myTable">
                     <tbody>
                         <tr style="height: 35px;">
@@ -100,7 +129,7 @@ version 1.0
                                 <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Base Size (B)</p>
                             </td>
                             <td style="width: 156px; height: 35px;">
-                                <input type="text" name="baseSize" id="B" data-validation="number" data-validation-allowing="float">
+                                <input type="text" name="baseSize" id="B" value="<?php echo $row2['base_size'];?>" readonly>
                             </td>
                         </tr>
                         <tr style="height: 35px;">
@@ -108,7 +137,7 @@ version 1.0
                                 <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; LOC Deleted (D)</p>
                             </td>
                             <td style="width: 156px; height: 35px;">
-                                <input type="text" name="locDeleted" id="D" data-validation="number" data-validation-allowing="float">
+                                <input type="text" name="locDeleted" id="D" value="<?php echo $row2['loc_deleted'];?>" readonly>
                             </td>
                         </tr>
                         <tr style="height: 35px;">
@@ -116,7 +145,7 @@ version 1.0
                                 <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; LOC Modified (M)</p>
                             </td>
                             <td style="width: 156px; height: 35px;">
-                                <input type="text" name="locModified" id="M" data-validation="number" data-validation-allowing="float">
+                                <input type="text" name="locModified" id="M" value="<?php echo $row2['loc_modified'];?>" readonly>
                             </td>
                         </tr>
                         <tr style="height: 35px;">
@@ -185,153 +214,10 @@ version 1.0
                                 <p style="text-align: center;">LOC</p>
                             </td>
                         </tr>
-                        <tr style="height: 35px;">
-                            <td style="width: 284px; height: 35px;">
-                                <input type="text" name="BA[]" id="base1" style="width: 280px;" data-validation="required" data-validation-depends-on="total1">
-                            </td>
-                            <td style="width: 31px; height: 35px;">
-                                <p>&nbsp;</p>
-                            </td>
-                            <td style="width: 139px; height: 35px;">
-                                <center>
-                                <select name="type[]" id="x1"  data-validation="required" data-validation-depends-on="base1">
-                                  <option value="" disabled selected>Select type</option>
-                                  <option value="logic">Logic</option>
-                                  <option value="io">Input/Output</option>
-                                  <option value="calculation">Calculation</option>
-                                  <option value="text">Text</option>
-                                  <option value="data">Data</option>
-                                  <option value="setup">Set-Up</option>
-                                </select>
-                                </center>
-                            </td>
-                            <td style="width: 31px; height: 35px;">
-                                <p><strong>&nbsp;</strong></p>
-                            </td>
-                            <td style="width: 139px; height: 35px;">
-                                <input type="text" name="methods[]" id="item1">
-                            </td>
-                            <td style="width: 31px; height: 35px;">
-                                <p><strong>&nbsp;</strong></p>
-                            </td>
-                            <td style="width: 171px; height: 35px;">
-                                <center>
-                                <select name="size[]" id="y1"   data-validation="required" data-validation-depends-on="x1">
-                                  <option value="" disabled selected>Select Size</option>
-                                  <option value="verysmall">Very Small</option>
-                                  <option value="small">Small</option>
-                                  <option value="medium">Medium</option>
-                                  <option value="large">Large</option>
-                                  <option value="verylarge">Very Large</option>
-                                </select>
-                                </center>
-                            </td>
-                            <td style="width: 10px; height: 35px;">
-                                <p><strong>&nbsp;</strong></p>
-                            </td>
-                            <td style="width: 156px; height: 35px;">
-                                <input type="text" name="loc[]" class="toAdd" id="total1" data-validation="required" data-validation-depends-on="y1">
-                            </td>
-                        </tr>
-                        <tr style="height: 35px;">
-                            <td style="width: 284px; height: 35px;">
-                                <input type="text" name="BA[]" id="base2" style="width: 280px;" data-validation="required" data-validation-depends-on="total2">
-                            </td>
-                            <td style="width: 31px; height: 35px;">
-                                <p>&nbsp;</p>
-                            </td>
-                            <td style="width: 139px; height: 35px;">
-                                <center>
-                                <select name="type[]" id="x2"  data-validation="required" data-validation-depends-on="base2">
-                                  <option value="" disabled selected>Select type</option>
-                                  <option value="logic">Logic</option>
-                                  <option value="io">Input/Output</option>
-                                  <option value="calculation">Calculation</option>
-                                  <option value="text">Text</option>
-                                  <option value="data">Data</option>
-                                  <option value="setup">Set-Up</option>
-                                </select>
-                                </center>
-                            </td>
-                            <td style="width: 31px; height: 35px;">
-                                <p><strong>&nbsp;</strong></p>
-                            </td>
-                            <td style="width: 139px; height: 35px;">
-                                <input type="text" name="methods[]" id="item2">
-                            </td>
-                            <td style="width: 31px; height: 35px;">
-                                <p><strong>&nbsp;</strong></p>
-                            </td>
-                            <td style="width: 171px; height: 35px;">
-                                <center>
-                                <select name="size[]" id="y2"  data-validation="required" data-validation-depends-on="x2">
-                                  <option value="" disabled selected>Select Size</option>
-                                  <option value="verysmall">Very Small</option>
-                                  <option value="small">Small</option>
-                                  <option value="medium">Medium</option>
-                                  <option value="large">Large</option>
-                                  <option value="verylarge">Very Large</option>
-                                </select>
-                                </center>
-                            </td>
-                            <td style="width: 10px; height: 35px;">
-                                <p><strong>&nbsp;</strong></p>
-                            </td>
-                            <td style="width: 156px; height: 35px;">
-                                <input type="text" name="loc[]" class="toAdd" id="total2" data-validation="required" data-validation-depends-on="y2">
-                            </td>
-                        </tr>
-                        <tr style="height: 35px;">
-                            <td style="width: 284px; height: 35px;">
-                                <input type="text" name="BA[]" id="base3" style="width: 280px;"  data-validation="required" data-validation-depends-on="total3">
-                            </td>
-                            <td style="width: 31px; height: 35px;">
-                                <p>&nbsp;</p>
-                            </td>
-                            <td style="width: 139px; height: 35px;">
-                                <center>
-                                <select name="type[]" id="x3"  data-validation="required" data-validation-depends-on="base3">
-                                  <option value="" disabled selected>Select type</option>
-                                  <option value="logic">Logic</option>
-                                  <option value="io">Input/Output</option>
-                                  <option value="calculation">Calculation</option>
-                                  <option value="text">Text</option>
-                                  <option value="data">Data</option>
-                                  <option value="setup">Set-Up</option>
-                                </select>
-                                </center>
-                            </td>
-                            <td style="width: 31px; height: 35px;">
-                                <p><strong>&nbsp;</strong></p>
-                            </td>
-                            <td style="width: 139px; height: 35px;">
-                                <input type="text" name="methods[]" id="item3">
-                            </td>
-                            <td style="width: 31px; height: 35px;">
-                                <p><strong>&nbsp;</strong></p>
-                            </td>
-                            <td style="width: 171px; height: 35px;">
-                                <center>
-                                <select name="size[]" id="y3" data-validation="required" data-validation-depends-on="x3">
-                                  <option value="" disabled selected>Select Size</option>
-                                  <option value="verysmall">Very Small</option>
-                                  <option value="small">Small</option>
-                                  <option value="medium">Medium</option>
-                                  <option value="large">Large</option>
-                                  <option value="verylarge">Very Large</option>
-                                </select>
-                                </center>
-                            </td>
-                            <td style="width: 10px; height: 35px;">
-                                <p><strong>&nbsp;</strong></p>
-                            </td>
-                            <td style="width: 156px; height: 35px;">
-                                <input type="text" name="loc[]" class="toAdd" id="total3" data-validation="required" data-validation-depends-on="y3">
-                            </td>
-                        </tr>
+                        
                         <tr style="height: 35px;" class="addMore">
                             <td style="width: 284px; height: 35px;">
-                                <input type="button" value="Add more base additions" onClick="addRow()" border=0       style='cursor:hand'>
+                                <p>&nbsp;</p>
                             </td>
                             <td style="width: 31px; height: 35px;">
                                 <p>&nbsp;</p>
@@ -445,153 +331,10 @@ version 1.0
                                 <p style="text-align: center;">LOC</p>
                             </td>
                         </tr>
-                        <tr style="height: 35px;">
-                            <td style="width: 284px; height: 35px;">
-                                <input type="text" name="NO[]" id="base4" style="width: 280px;" data-validation="required" data-validation-depends-on="total4">
-                            </td>
-                            <td style="width: 31px; height: 35px;">
-                                <p>&nbsp;</p>
-                            </td>
-                            <td style="width: 139px; height: 35px;">
-                                <center>
-                                <select name="type2[]" id='x4' data-validation="required" data-validation-depends-on="base4">
-                                  <option value="" disabled selected>Select type</option>
-                                  <option value="logic">Logic</option>
-                                  <option value="io">Input/Output</option>
-                                  <option value="calculation">Calculation</option>
-                                  <option value="text">Text</option>
-                                  <option value="data">Data</option>
-                                  <option value="setup">Set-Up</option>
-                                </select>
-                                </center>
-                            </td>
-                            <td style="width: 31px; height: 35px;">
-                                <p>&nbsp;</p>
-                            </td>
-                            <td style="width: 139px; height: 35px;">
-                                <input type="text" name="methods2[]" id="item4">
-                            </td>
-                            <td style="width: 31px; height: 35px;">
-                                <p>&nbsp;</p>
-                            </td>
-                            <td style="width: 171px; height: 35px;">
-                                <center>
-                                <select name="size2[]" id="y4" data-validation="required" data-validation-depends-on="x4">
-                                  <option value="" disabled selected>Select Size</option>
-                                  <option value="verysmall">Very Small</option>
-                                  <option value="small">Small</option>
-                                  <option value="medium">Medium</option>
-                                  <option value="large">Large</option>
-                                  <option value="verylarge">Very Large</option>
-                                </select>
-                                </center>
-                            </td>
-                            <td style="width: 10px; height: 35px;">
-                                <p>&nbsp;</p>
-                            </td>
-                            <td style="width: 156px; height: 35px;">
-                                <input type="text" name="loc2[]" class="toAdd2" id="total4" data-validation="required" data-validation-depends-on="y4">
-                            </td>
-                        </tr>
-                        <tr style="height: 35px;">
-                            <td style="width: 284px; height: 35px;">
-                                <input type="text" name="NO[]" id="base5" style="width: 280px;" data-validation="required" data-validation-depends-on="total5">
-                            </td>
-                            <td style="width: 31px; height: 35px;">
-                                <p>&nbsp;</p>
-                            </td>
-                            <td style="width: 139px; height: 35px;">
-                                <center>
-                                <select name="type2[]" id="x5" data-validation="required" data-validation-depends-on="base5">
-                                  <option value="" disabled selected>Select type</option>
-                                  <option value="logic">Logic</option>
-                                  <option value="io">Input/Output</option>
-                                  <option value="calculation">Calculation</option>
-                                  <option value="text">Text</option>
-                                  <option value="data">Data</option>
-                                  <option value="setup">Set-Up</option>
-                                </select>
-                                </center>
-                            </td>
-                            <td style="width: 31px; height: 35px;">
-                                <p>&nbsp;</p>
-                            </td>
-                            <td style="width: 139px; height: 35px;">
-                                <input type="text" name="methods2[]" id="item5">
-                            </td>
-                            <td style="width: 31px; height: 35px;">
-                                <p>&nbsp;</p>
-                            </td>
-                            <td style="width: 171px; height: 35px;">
-                                <center>
-                                <select name="size2[]" id="y5" data-validation="required" data-validation-depends-on="x5">
-                                  <option value="" disabled selected>Select Size</option>
-                                  <option value="verysmall">Very Small</option>
-                                  <option value="small">Small</option>
-                                  <option value="medium">Medium</option>
-                                  <option value="large">Large</option>
-                                  <option value="verylarge">Very Large</option>
-                                </select>
-                                </center>
-                            </td>
-                            <td style="width: 10px; height: 35px;">
-                                <p>&nbsp;</p>
-                            </td>
-                            <td style="width: 156px; height: 35px;">
-                                <input type="text" name="loc2[]" class="toAdd2" id="total5" data-validation="required" data-validation-depends-on="y5">
-                            </td>
-                        </tr>
-                        <tr style="height: 35px;">
-                            <td style="width: 284px; height: 35px;">
-                                <input type="text" name="NO[]" id="base6" style="width: 280px;" data-validation="required" data-validation-depends-on="total6">
-                            </td>
-                            <td style="width: 31px; height: 35px;">
-                                <p>&nbsp;</p>
-                            </td>
-                            <td style="width: 139px; height: 35px;">
-                                <center>
-                                <select name="type2[]" id="x6" data-validation="required" data-validation-depends-on="base6">
-                                  <option value="" disabled selected>Select type</option>
-                                  <option value="logic">Logic</option>
-                                  <option value="io">Input/Output</option>
-                                  <option value="calculation">Calculation</option>
-                                  <option value="text">Text</option>
-                                  <option value="data">Data</option>
-                                  <option value="setup">Set-Up</option>
-                                </select>
-                                </center>
-                            </td>
-                            <td style="width: 31px; height: 35px;">
-                                <p>&nbsp;</p>
-                            </td>
-                            <td style="width: 139px; height: 35px;">
-                                <input type="text" name="methods2[]" id="item6">
-                            </td>
-                            <td style="width: 31px; height: 35px;">
-                                <p>&nbsp;</p>
-                            </td>
-                            <td style="width: 171px; height: 35px;">
-                                <center>
-                                <select name="size2[]" id="y6" data-validation="required" data-validation-depends-on="x6">
-                                  <option value="" disabled selected>Select Size</option>
-                                  <option value="verysmall">Very Small</option>
-                                  <option value="small">Small</option>
-                                  <option value="medium">Medium</option>
-                                  <option value="large">Large</option>
-                                  <option value="verylarge">Very Large</option>
-                                </select>
-                                </center>
-                            </td>
-                            <td style="width: 10px; height: 35px;">
-                                <p>&nbsp;</p>
-                            </td>
-                            <td style="width: 156px; height: 35px;">
-                                <input type="text" name="loc2[]" class="toAdd2" id="total6" data-validation="required" data-validation-depends-on="y6">
-                            </td>
-                        </tr>
+                        
                         <tr style="height: 35px;" class="addMoreObjectRow">
                             <td style="width: 284px; height: 35px;">
-                                <input type="button" value="Add more new objects" onClick="addObjectRow()" border=0       style='cursor:hand'>
+                                <p>&nbsp;</p>
                             </td>
                             <td style="width: 31px; height: 35px;">
                                 <p>&nbsp;</p>
@@ -689,13 +432,13 @@ version 1.0
                         </tr>
                         <tr style="height: 35px;">
                             <td style="width: 862px; height: 35px;" colspan="7">
-                                <input type="text" name="RO[]" style="width: 800px;">
+                                <input type="text" name="RO[]" style="width: 800px;" value="<?php echo $row6['base_additions'];?>" readonly>
                             </td>
                             <td style="width: 10px; height: 35px;">
                                 <p><strong>&nbsp;</strong></p>
                             </td>
                             <td style="width: 156px; height: 35px;">
-                                <input type="text" name="loc3[]" class="toAdd3">
+                                <input type="text" name="loc3[]" class="toAdd3" value="<?php echo $row6['loc'];?>" readonly>
                             </td>
                         </tr>
                         <tr style="height: 35px;">
@@ -781,7 +524,7 @@ version 1.0
                                 <p><strong>&nbsp;</strong></p>
                             </td>
                             <td style="width: 156px; height: 38px;">
-                                <input type="text" name="b0" id="b0" data-validation="number" data-validation-allowing="float,negative">
+                                <input type="text" name="b0" id="b0" value="<?php echo $row5['parameter_b0'];?>" readonly>
                             </td>
                         </tr>
                         <tr style="height: 38px;">
@@ -795,7 +538,7 @@ version 1.0
                                 <p><strong>&nbsp;</strong></p>
                             </td>
                             <td style="width: 156px; height: 38px;">
-                                <input type="text" name="b1" id="b1" data-validation="number" data-validation-allowing="float">
+                                <input type="text" name="b1" id="b1"  value="<?php echo $row5['parameter_b1'];?>" readonly>
                             </td>
                         </tr>
                         <tr style="height: 38px;">
@@ -829,9 +572,7 @@ version 1.0
                     </tbody>
                 </table>
                 <br>
-                <input type="submit" value="Submit" />
                 <p><sup>&nbsp;</sup></p>
-            </form>
         </center>
     <script src="js/jquery.form-validator.js"></script>
     <script>

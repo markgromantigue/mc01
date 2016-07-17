@@ -1,7 +1,7 @@
 <?php
 $username="root";
 $password="1234";
-$database="mc01";
+$database="advanse_mc01";
 
 $link = mysql_connect('localhost', $username, $password);
         if (!$link) {

@@ -1,12 +1,12 @@
 <?php
-$con = mysqli_connect("localhost","root","") or die(mysqli_error());
-mysqli_select_db($con,"mco1") or die(mysqli_error($con));
-$name = $_POST["name"];
-$program = $_POST["program"];
-$professor = $_POST["professor"];
-$programNo = $_POST["program_no"];
-$language = $_POST["language"];
-$date = $_POST["datetime"];
+$con = mysqli_connect("localhost","root","1234") or die(mysqli_error());
+mysqli_select_db($con,"advanse_mc01") or die(mysqli_error($con));
+
+if(isset($_GET['user_id'])){
+		$userId = $_GET['user_id'];
+        $projectId = $_GET['project_id'];
+}
+    
 $pLOCHour = $_POST["plochour"];
 $aLOCHour = $_POST["alochour"];
 $pTime = $_POST["ptime"];
@@ -64,29 +64,7 @@ $professorThere = FALSE;
 $programNoThere = FALSE;
 $languageThere = FALSE;
 $dateThere = FALSE;
-$result = mysqli_query($con,"SELECT * FROM users") or die(mysqli_error($con));
-$rows = mysqli_num_rows($result);
-if ($rows == 0) {
-	$sql = "INSERT INTO users(name,program) VALUES('" . $name . "','" . $program . "')";
-	mysqli_query($con,$sql) or die(mysqli_error($con));
-} else {
-	while ($row = mysqli_fetch_array($result)) {
-		if ($row['name'] == $name) {
-			$nameThere = TRUE;
-		}
-		if ($row['program'] == $program) {
-			$programThere = TRUE;
-		}
-	}
-	if (!$nameThere || !$programThere) {
-		$sql = "INSERT INTO users(name,program) VALUES('" . $name . "','" . $program . "')";
-		mysqli_query($con,$sql) or die(mysqli_error($con));
-	}
-}
-$sql = "SELECT * FROM users WHERE name = '" . $name . "' AND program = '" . $program . "'";
-$result = mysqli_query($con,$sql) or die(mysqli_error($con));
-$row = mysqli_fetch_array($result);
-$userId = $row['user_id'];
+
 $sql = "SELECT * FROM summary_to_date WHERE user_id = '" . $userId . "'";
 $result = mysqli_query($con,$sql);
 $rows = mysqli_num_rows($result);
@@ -253,35 +231,7 @@ $tRPCode = 100 * $tRCode / $tRTotal;
 $tRPCompile = 100 * $tRCompile / $tRTotal;
 $tRPTest = 100 * $tRTest / $tRTotal;
 $tRPTotal = 100;
-$result = mysqli_query($con,"SELECT * FROM project") or die(mysqli_error($con));
-$rows = mysqli_num_rows($result);
-if ($rows == 0) {
-	$sql = "INSERT INTO project(professor,program_no,language,datetime) VALUES('" . $professor . "','" . $programNo . "','" . $language . "','" . $date . "')";
-	mysqli_query($con,$sql) or die(mysqli_error($con));
-} else {
-	while ($row = mysqli_fetch_array($result)) {
-		if ($row['professor'] == $professor) {
-			$professorThere = TRUE;
-		}
-		if ($row['program_no'] == $programNo) {
-			$programThere = TRUE;
-		}
-		if ($row['language'] == $language) {
-			$languageThere = TRUE;
-		}
-		if ($row['datetime'] == $date) {
-			$dateThere = TRUE;
-		}
-	}
-	if (!$nameThere || !$programThere || !$languageThere || !$dateThere) {
-		$sql = "INSERT INTO project(professor,program_no,language,datetime) VALUES('" . $professor . "','" . $programNo . "','" . $language . "','" . $date . "')";
-		mysqli_query($con,$sql) or die(mysqli_error($con));
-	}
-}
-$sql = "SELECT * FROM project WHERE professor = '" . $professor . "' AND program_no = '" . $programNo . "' AND language = '" . $language . "' AND datetime = '" . $date . "'";
-$result = mysqli_query($con,$sql) or die(mysqli_error($con));
-$row = mysqli_fetch_array($result);
-$projectId = $row['project_id'];
+
 $sql = "INSERT INTO summary_plan(user_id,project_id,loc_per_hour,planned_time,percent_reused,percent_new_reused) VALUES('" . $userId . "','" . $projectId . "','" . $pLOCHour . "','" . $pTime . "','" . $pReused . "','" . $pNReused . "')";
 $result = mysqli_query($con,$sql) or die(mysqli_error($con));
 $sql = "INSERT INTO summary_actual(user_id,project_id,loc_per_hour,actual_time,percent_reused,percent_new_reused) VALUES('" . $userId . "','" . $projectId . "','" . $aLOCHour . "','" . $aTime . "','" . $aReused . "','" . $aNReused . "')";
@@ -314,5 +264,7 @@ $sql = "INSERT INTO defects_removed_to_date(user_id,project_id,planning,design,c
 $result = mysqli_query($con,$sql) or die(mysqli_error($con));
 $sql = "INSERT INTO defects_removed_to_date_percent(user_id,project_id,planning,design,code,compile,test,total_development) VALUES('" . $userId . "','" . $projectId . "','" . $tRPPlanning . "','" . $tRPDesign . "','" . $tRPCode . "','" . $tRPCompile . "','" . $tRPTest . "','" . $tRPTotal . "')";
 $result = mysqli_query($con,$sql) or die(mysqli_error($con));
+mysqli_query($con, "UPDATE `project` SET `PPS`= 1 WHERE `project_id` = '".$projectId."' AND `user_id` = '".$userId."'") or die (mysqli_error());
 mysqli_close($con);
+header("Location:ppsForm.php?msg=success&user_id=$userId&project_id=$projectId");
 ?>

@@ -5,14 +5,10 @@
     
     include 'db.php';
     
-    //$myusername = $_SESSION['myusername'];
-    $myusername = "Mark Genesis Romantigue";
-    //echo $myusername;
-    $sql = "SELECT user_id FROM users WHERE name = '" . $myusername . "'";
-    $userId = mysql_fetch_array(mysql_query($sql));
-    
-    $sql2 = "SELECT `project_id` FROM `project` WHERE `user_id` = '" . $userId[0] . "'";
-    $projectId = mysql_fetch_array(mysql_query($sql2));
+    if(isset($_GET['user_id'])){
+		$userId = $_GET['user_id'];
+        $projectId = $_GET['project_id'];
+    }
 
     //get inputs by post
     $baseSize =($_POST["baseSize"] );
@@ -41,29 +37,31 @@
     $locDeleted = mysql_real_escape_string($locDeleted);
     $locModified = mysql_real_escape_string($locModified);
     
-    $insertBaseQuery = "INSERT INTO `base_program`(`user_id`, `project_id`, `base_size`, `loc_deleted`, `loc_modified`) VALUES ('" . $userId[0] . "','" . $projectId[0] . "','" . $baseSize . "','" . $locDeleted . "','" . $locModified . "')";
+    $insertBaseQuery = "INSERT INTO `base_program`(`user_id`, `project_id`, `base_size`, `loc_deleted`, `loc_modified`) VALUES ('" . $userId . "','" . $projectId . "','" . $baseSize . "','" . $locDeleted . "','" . $locModified . "')";
     $result = mysql_query($insertBaseQuery);
     
     foreach ($BA as $index => $value) {
         if (!empty($BA[$index])) {
-            $query = mysql_query("INSERT INTO `projected_loc`(`user_id`, `project_id`, `base_additions`, `type`, `methods`, `relative_size`, `loc`) VALUES('" . $userId[0] . "','" . $projectId[0] . "','" . $BA[$index] . "','" . $type[$index] . "','" . $methods[$index] . "','" . $size[$index] . "','" . $loc[$index] . "')");
+            $query = mysql_query("INSERT INTO `projected_loc`(`user_id`, `project_id`, `base_additions`, `type`, `methods`, `relative_size`, `loc`) VALUES('" . $userId . "','" . $projectId . "','" . $BA[$index] . "','" . $type[$index] . "','" . $methods[$index] . "','" . $size[$index] . "','" . $loc[$index] . "')");
         }
     }
     
     foreach ($NO as $index => $value) {
         if (!empty($NO[$index])) {
-            $query = mysql_query("INSERT INTO `new_objects`(`user_id`, `project_id`, `base_additions`, `type`, `methods`, `relative_size`, `loc`) VALUES('" . $userId[0] . "','" . $projectId[0] . "','" . $NO[$index] . "','" . $type2[$index] . "','" . $methods2[$index] . "','" . $size2[$index] . "','" . $loc2[$index] . "')");
+            $query = mysql_query("INSERT INTO `new_objects`(`user_id`, `project_id`, `base_additions`, `type`, `methods`, `relative_size`, `loc`) VALUES('" . $userId . "','" . $projectId . "','" . $NO[$index] . "','" . $type2[$index] . "','" . $methods2[$index] . "','" . $size2[$index] . "','" . $loc2[$index] . "')");
         }
     }
     
     foreach ($RO as $index => $value) {
         if (!empty($RO[$index])) {
-            $query = mysql_query("INSERT INTO `reused_objects`(`user_id`, `project_id`, `base_additions`, `loc`) VALUES('" . $userId[0] . "','" . $projectId[0] . "','" . $RO[$index] . "','" . $loc3[$index] . "')");
+            $query = mysql_query("INSERT INTO `reused_objects`(`user_id`, `project_id`, `base_additions`, `loc`) VALUES('" . $userId . "','" . $projectId . "','" . $RO[$index] . "','" . $loc3[$index] . "')");
         }
     }
     
-    $insertEstimates = "INSERT INTO `size_estimates`(`user_id`, `project_id`, `projected_loc`, `parameter_b0`, `parameter_b1`, `estimated_new`, `estimated_total`) VALUES ('" . $userId[0] . "','" . $projectId[0] . "','" . $P . "','" . $b0 . "','" . $b1 . "','" . $N . "','" . $T . "')";
+    $insertEstimates = "INSERT INTO `size_estimates`(`user_id`, `project_id`, `projected_loc`, `parameter_b0`, `parameter_b1`, `estimated_new`, `estimated_total`) VALUES ('" . $userId . "','" . $projectId . "','" . $P . "','" . $b0 . "','" . $b1 . "','" . $N . "','" . $T . "')";
     $result2 = mysql_query($insertEstimates);
+    
+    $query = mysql_query("UPDATE `project` SET `ST`= 1 WHERE `project_id` = '".$projectId."' AND `user_id` = '".$userId."'");
     
     if ($query) {
     echo "success!";
@@ -72,6 +70,6 @@
   }
 
     mysql_close();
-    //header("location:logged.php");
+    header("Location: view_project.php?msg=done&user_id=$userId&project_id=$projectId");
 
 ?>

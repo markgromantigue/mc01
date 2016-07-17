@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<?php
+if(isset($_GET['user_id'])){
+		$userId = $_GET['user_id'];
+        $projectId = $_GET['project_id'];
+}
+?>
 <html>
 <head>
 <style type="text/css">
@@ -9,8 +15,8 @@
 }
 </style>
 </head>
+<a href="view_project.php?user_id=<?php echo $userId?>&project_id=<?php echo $projectId?>">Go Back</a>
 <div class="center">
-<a href=time_recording_log.php><button type='button'>Add Time Log</button></a>
 <center><h1>Time Log Entries</h1></center>
 </div>
 </html>
@@ -37,7 +43,7 @@ else
 		$res=mysqli_query($con, $delete);
 	}
 
-    $sql = "SELECT time_log_id ,date, phase, start, stop, interruption_time, delta_time, comments FROM time_recording_log";
+    $sql = "SELECT * FROM time_recording_log WHERE `project_id` = $projectId AND `user_id` = $userId";
     $result = mysqli_query($con, $sql);
 
     echo "<div class='center'>";

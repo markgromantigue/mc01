@@ -1,0 +1,263 @@
+body{
+	color:#2c3e50;
+}
+
+.navbar-pic{
+	margin-right: 10px;
+}
+
+.navbar{
+	background-color: #D81E28;
+}
+
+.sidebar-pic{
+	margin: 10px;
+}
+
+.navbar .nav > li.dropdown.open > a
+{
+   color: #fff;
+   background-color: #AD1515;
+   border-color: #fff;
+}
+
+.container{
+	width: 100%;
+}
+
+#formHeader,.col-md-2,.col-md-3,.col-md-4,.col-md-5,.col-md-6,.col-md-7{
+	box-shadow: 8px 7px 5px #888888;
+	background-color:#ecf0f1;
+}
+
+.col-md-2{
+	width: 90%;
+	min-height: 100px;	
+	margin-left: 65px;
+	margin-top:40px;
+	margin-bottom: 10px;
+	border-radius: 10px;
+	padding-bottom: 20px;
+}
+
+.col-md-3{
+	width:280px;
+	min-height: 300px;
+	margin-left: 8%;
+	margin-right: auto;
+	margin-top:30px;
+	margin-bottom:100px;
+	border-radius: 3px;
+	padding-bottom: 10px;
+}
+
+.col-md-4{
+	display:inline-block;
+    left:90px;
+	width:480px;
+	min-height: 200px;
+	margin-left: 10px;
+	margin-top: 30px;
+	margin-bottom:100px;
+	border-radius: 3px;
+	padding-bottom: 10px;
+}
+
+.col-md-5{
+	display:inline-block;
+	width:280px;
+	min-height: 482px;
+	margin-left: 10px;
+	border-radius: 10px;
+	padding-bottom: 10px;
+}
+
+.col-md-6{
+	width:90%;
+	min-height:50%;
+	margin-left: 65px;
+	margin-bottom: 10px;
+	border-radius: 10px;
+}
+.fc-more{
+	color: #95a5a6;
+}
+.col-md-7{
+	width:68%;
+	min-height:50%;
+	margin-left: 65px;
+	margin-bottom: 50px;
+	border-radius: 10px;
+}
+
+
+.logo {
+	position:absolute;
+	bottom:-2px;
+	width:250px;
+	height:50px;
+}
+
+.typeahead, .tt-query, .tt-hint {
+	width: 80px;
+}
+
+.tt-dropdown-menu {
+	background-color: #FFFFFF;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 8px;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+	margin-top: 12px;
+	padding: 8px 0;
+	width: 100px;
+}
+
+#legend{
+	display:inline-block;
+	position:absolute;
+	margin-left:10px;
+	margin-top:20px;
+}
+
+#fade{
+    display: none;
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index:1001;
+    opacity:.5;
+    filter: alpha(opacity=70);
+}
+#light{
+    display: none;
+    position: absolute;
+    top: 40%;
+    left: 35%;
+    width: 700px;
+    min-height: 300px;
+    margin-left: -150px;
+    margin-top: -100px;                 
+    padding: 10px;
+    border-radius:10px;
+    background: #bdc3c7;
+    z-index:1002;
+    overflow:visible;
+}
+
+#matDesPlus{
+	position:absolute;
+	top:95px;
+    left:320px;
+	background-color:#95a5a6;
+	border-radius:300px;
+	padding:5px;
+	-webkit-opacity: 0.3;
+	-moz-opacity: 0.3;
+	opacity: 0.3;
+	-webkit-transition: all 1s ease;
+	-moz-transition: all 1s ease;
+	-ms-transition: all 1s ease;
+	-o-transition: all 1s ease;
+	transition: all 1s ease;
+}
+
+#matDesPlus:hover{
+	background-color:#2a3d73;
+	-webkit-opacity: 1;
+	-moz-opacity: 1;
+	opacity: 1;
+}
+
+#foodActForm{
+	width:30%; 
+	margin-left:80px; 
+	margin-top:10px; 
+	margin-bottom:8px; 
+	border-radius:4px; 
+	background-color:#AA3939; 
+	color:white;
+}
+#calendar{
+	margin-top:30px;
+	margin-bottom:30px;
+	margin-left:auto;
+	margin-right:auto;
+	width:auto;
+	height:auto;
+}
+
+
+#logo{
+	position:absolute;
+	top:170px;
+	left:70px; 
+}
+
+[id^="togList1"],                        /* HIDE CHECKBOX */
+[id^="togList1"] ~ .list1,                /* HIDE LIST */
+[id^="togList1"] + label  span + span,   /* HIDE "Collapse" */
+[id^="togList1"]:checked + label span{   /* HIDE "Expand" (IF CHECKED) */
+	display:none;
+}
+[id^="togList1"]:checked + label span + span{
+	display:inline-block;                 /* SHOW "Collapse" (IF CHECKED) */
+}
+[id^="togList1"]:checked ~ .list1{
+	display:block;                        /* SHOW LIST (IF CHECKED) */
+}
+
+
+[id^="togList2"],                        /* HIDE CHECKBOX */
+[id^="togList2"] ~ .list2,                /* HIDE LIST */
+[id^="togList2"] + label  span + span,   /* HIDE "Collapse" */
+[id^="togList2"]:checked + label span{   /* HIDE "Expand" (IF CHECKED) */
+	display:none;
+}
+[id^="togList2"]:checked + label span + span{
+	display:inline-block;                 /* SHOW "Collapse" (IF CHECKED) */
+}
+[id^="togList2"]:checked ~ .list2{
+	display:block;                        /* SHOW LIST (IF CHECKED) */
+}
+
+[id^="togList3"],                        /* HIDE CHECKBOX */
+[id^="togList3"] ~ .list3,                /* HIDE LIST */
+[id^="togList3"] + label  span + span,   /* HIDE "Collapse" */
+[id^="togList3"]:checked + label span{   /* HIDE "Expand" (IF CHECKED) */
+	display:none;
+}
+[id^="togList3"]:checked + label span + span{
+	display:inline-block;                 /* SHOW "Collapse" (IF CHECKED) */
+}
+[id^="togList3"]:checked ~ .list3{
+	display:block;                        /* SHOW LIST (IF CHECKED) */
+}
+
+[id^="togList4"],                        /* HIDE CHECKBOX */
+[id^="togList4"] ~ .list4,                /* HIDE LIST */
+[id^="togList4"] + label  span + span,   /* HIDE "Collapse" */
+[id^="togList4"]:checked + label span{   /* HIDE "Expand" (IF CHECKED) */
+	display:none;
+}
+[id^="togList4"]:checked + label span + span{
+	display:inline-block;                 /* SHOW "Collapse" (IF CHECKED) */
+}
+[id^="togList4"]:checked ~ .list4{
+	display:block;                        /* SHOW LIST (IF CHECKED) */
+}
+
+[id^="togList5"],                        /* HIDE CHECKBOX */
+[id^="togList5"] ~ .list5,                /* HIDE LIST */
+[id^="togList5"] + label  span + span,   /* HIDE "Collapse" */
+[id^="togList5"]:checked + label span{   /* HIDE "Expand" (IF CHECKED) */
+	display:none;
+}
+[id^="togList5"]:checked + label span + span{
+	display:inline-block;                 /* SHOW "Collapse" (IF CHECKED) */
+}
+[id^="togList5"]:checked ~ .list5{
+	display:block;                        /* SHOW LIST (IF CHECKED) */
+}
