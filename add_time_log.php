@@ -1,3 +1,8 @@
+<!--
+@Author: John Zachary S. Raduban
+email:zachraduban@gmail.com
+version 1.0
+-->
 <?php
 //date_default_timezone_set("Asia/Manila");
 if(isset($_GET['user_id'])){

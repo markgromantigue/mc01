@@ -1,3 +1,8 @@
+<!--
+@Author: John Zachary S. Raduban
+email:zachraduban@gmail.com
+version 1.0
+-->
 <!DOCTYPE html>
 <?php
     error_reporting(0);

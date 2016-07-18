@@ -1,3 +1,8 @@
+<!--
+@Author: John Zachary S. Raduban
+email:zachraduban@gmail.com
+version 1.0
+-->
 <?php
 $con = mysqli_connect('localhost', 'root', '1234', 'advanse_mc01');
 if (mysqli_connect_errno()) {

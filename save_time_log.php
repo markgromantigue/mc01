@@ -1,3 +1,8 @@
+<!--
+@Author: John Zachary S. Raduban
+email:zachraduban@gmail.com
+version 1.0
+-->
 <?php
 
 if(isset($_GET['user_id'])){
