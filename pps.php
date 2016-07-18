@@ -266,5 +266,5 @@ $sql = "INSERT INTO defects_removed_to_date_percent(user_id,project_id,planning,
 $result = mysqli_query($con,$sql) or die(mysqli_error($con));
 mysqli_query($con, "UPDATE `project` SET `PPS`= 1 WHERE `project_id` = '".$projectId."' AND `user_id` = '".$userId."'") or die (mysqli_error());
 mysqli_close($con);
-header("Location:ppsForm.php?msg=success&user_id=$userId&project_id=$projectId");
+header("Location:view_project.php?msg=done&user_id=$userId&project_id=$projectId");
 ?>

@@ -70,6 +70,6 @@
   }
 
     mysql_close();
-    header("Location: view_project.php?msg=done&user_id=$userId&project_id=$projectId");
+    header("Location: view_project.php?user_id=$userId&project_id=$projectId");
 
 ?>

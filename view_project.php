@@ -16,7 +16,7 @@
 		$msg = $_GET['msg'];
 		if ($msg ==  "done"){
 			?> <script> 
-            alert("You have already finished this form!"); 
+            alert("Data successfully saved!"); 
             window.location.href = "view_project.php?user_id=<?php echo $userId;?>&project_id=<?php echo $projectId;?>";
             </script> <?php
 		}

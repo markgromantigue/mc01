@@ -31,7 +31,7 @@
     $result=mysql_query($query);
     $row2 = mysql_fetch_array($result);
     if($row2['PPS'] == 1){
-        header("Location:view_project.php?msg=done&user_id=$userId&project_id=$projectId");
+        header("Location:ppsView.php?msg=done&user_id=$userId&project_id=$projectId");
     }
 ?>
 <html>

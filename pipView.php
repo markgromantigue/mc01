@@ -30,25 +30,32 @@
     $query="SELECT * from users c, project o WHERE c.user_id = o. user_id AND o. user_id = $userId AND o. project_id = $projectId";
     $result=mysql_query($query);
     $row2 = mysql_fetch_array($result);
-    if($row2['PIP'] == 1){
-        header("Location:pipView.php?msg=done&user_id=$userId&project_id=$projectId");
-    }
+    
+    $strSQL3 = "SELECT * FROM `pip_form` WHERE `user_id` = '" . $userId . "' AND `project_id` = '" . $projectId . "' AND `type` = 'problem'";
+    $rs3 = mysql_query($strSQL3);
+    $row3 = mysql_fetch_array($rs3);
+    
+    $strSQL4 = "SELECT * FROM `pip_form` WHERE `user_id` = '" . $userId . "' AND `project_id` = '" . $projectId . "' AND `type` = 'proposal'";
+    $rs4 = mysql_query($strSQL4);
+    $row4 = mysql_fetch_array($rs4);
+    
+    $strSQL5 = "SELECT * FROM `pip_notes` WHERE `user_id` = '" . $userId . "' AND `project_id` = '" . $projectId . "'";
+    $rs5 = mysql_query($strSQL5);
+    $row5 = mysql_fetch_array($rs5);
 ?>
 <html>
 <head>
 <title>PIP Form</title>
 </head>
 <body>
-<form action="pip.php?user_id=<?php echo $userId?>&project_id=<?php echo $projectId?>" method="post">
 
 <br>
 Problem Description:<br>
-<textarea rows="10" cols="70" name="problem" required></textarea><br><br>
+<textarea rows="10" cols="70" name="problem" readonly><?php echo $row3['description'];?></textarea><br><br>
 Proposal Description:<br>
-<textarea rows="10" cols="70" name="proposal" required></textarea><br><br>
+<textarea rows="10" cols="70" name="proposal" readonly><?php echo $row4['description'];?></textarea><br><br>
 Notes:<br>
-<textarea rows="10" cols="70" name="notes" required></textarea><br>
-<input type="submit" name="Submit">
-</form>
+<textarea rows="10" cols="70" name="notes" readonly><?php echo $row5['notes'];?></textarea><br>
+
 </body>
 </html>

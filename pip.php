@@ -19,5 +19,5 @@ $sql = "INSERT INTO pip_notes(user_id,project_id,notes) VALUES ('" . $userId . "
 $result = mysqli_query($con,$sql) or die(mysqli_error($con));
 mysqli_query($con, "UPDATE `project` SET `PIP`= 1 WHERE `project_id` = '".$projectId."' AND `user_id` = '".$userId."'") or die (mysqli_error());
 mysqli_close($con);
-header("Location:pipForm.php?msg=success&user_id=$userId&project_id=$projectId");
+header("Location:view_project.php?msg=done&user_id=$userId&project_id=$projectId");
 ?>
