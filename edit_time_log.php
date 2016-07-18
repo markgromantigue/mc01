@@ -76,7 +76,15 @@ table {
 	<td><input type="time" name="start" value ="<?php echo $start;?>" required></td>
 	<td><input type="time" name="stop" value ="<?php echo $stop;?>" required></td>
 	<td><input type="number" name="interrupt" min="0" value ="<?php echo $interruption_time;?>"></td>
-	<td><input type="text" name="phase" value ="<?php echo $phase;?>" required></td>
+	<td><select name="phase" required>
+		<option value="<?php echo $phase;?>" disable selected><?php echo $phase;?></option>
+		<option value="Planning">Planning</option>
+  		<option value="Design">Design</option>
+  		<option value="Code">Code</option>
+  		<option value="Compile">Compile</option>
+		<option value="Test">Test</option>
+		<option value="Postmortem">Postmortem</option>
+	</select></td>
 	<td><input type="text" name="comments" value ="<?php echo $comments;?>"></td>
 </tr>
 </tbody>

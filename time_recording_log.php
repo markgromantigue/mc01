@@ -48,7 +48,7 @@ version 1.0
 	$(document).ready(function(){
 		$("#addRow").on("click", function(){
 			$("#inputRows").append(
-				'<tr><td><input type="date" name="date[]" required></td><td><input type="time" name="start[]" required></td><td><input type="time" name="stop[]" required></td><td><input type="number" name="interrupt[]" min="0"></td><td><input type="text" name="phase[]" required></td><td><input type="text" name="comments[]"></td></tr>'
+				'<tr><td><input type="date" name="date[]" required></td><td><input type="time" name="start[]" required></td><td><input type="time" name="stop[]" required></td><td><input type="number" name="interrupt[]" min="0"></td><td><select name="phase[]" required><option value="" disable selected>Select</option><option value="Planning">Planning</option><option value="Design">Design</option><option value="Code">Code</option><option value="Compile">Compile</option><option value="Test">Test</option><option value="Postmortem">Postmortem</option></select></td><td><input type="text" name="comments[]"></td></tr>'
 				);
 		});
 	});
@@ -93,7 +93,15 @@ table {
 	<td><input type="time" name="start[]" required></td>
 	<td><input type="time" name="stop[]" required></td>
 	<td><input type="number" name="interrupt[]" min="0"></td>
-	<td><input type="text" name="phase[]" required></td>
+	<td><select name="phase[]" required>
+		<option value="" disable selected>Select</option>
+		<option value="Planning">Planning</option>
+  		<option value="Design">Design</option>
+  		<option value="Code">Code</option>
+  		<option value="Compile">Compile</option>
+		<option value="Test">Test</option>
+		<option value="Postmortem">Postmortem</option>
+	</select></td>
 	<td><input type="text" name="comments[]"></td>
 </tr>
 </tbody>
