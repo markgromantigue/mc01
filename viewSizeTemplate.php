@@ -28,12 +28,11 @@ version 1.0
     
     $strSQL3 = "SELECT * FROM `projected_loc` WHERE `user_id` = '" . $userId . "' AND `project_id` = '" . $projectId . "'";
     $rs3 = mysql_query($strSQL3);
-    $row3 = mysql_fetch_array($rs3);
+    //$row3 = mysql_fetch_array($rs3);
     $plocCount = mysql_num_rows($rs3);
     
     $strSQL4 = "SELECT * FROM `new_objects` WHERE `user_id` = '" . $userId . "' AND `project_id` = '" . $projectId . "'";
     $rs4 = mysql_query($strSQL4);
-    $row4 = mysql_fetch_array($rs4);
     $objectCount = mysql_num_rows($rs4);
     
     $strSQL5 = "SELECT * FROM `size_estimates` WHERE `user_id` = '" . $userId . "' AND `project_id` = '" . $projectId . "'";
@@ -65,12 +64,12 @@ version 1.0
         function addRow(){
             var i=0;
             for(i=0;i<<?php echo $plocCount;?>;i++){
-                $('#myTable tr.addMore').before("<tr style='height: 35px;'><td style='width: 284px; height: 35px;'><input type='text' name='BA[]' id='base" + i + "' style='width: 280px;' value='<?php echo $row3['base_additions'];?>' readonly></td><td style='width: 31px; height: 35px;'><p>&nbsp;</p></td><td style='width: 139px; height: 35px;'><center><select name='type[]' id='x" + i + "'  data-validation='required' data-validation-depends-on='base" + i + "'><option value='' disabled selected><?php echo $row3['type'];?></option><option value='logic'>Logic</option><option value='io'>Input/Output</option><option value='calculation'>Calculation</option><option value='text'>Text</option><option value='data'>Data</option><option value='setup'>Set-Up</option></select></center></td><td style='width: 31px; height: 35px;'><p><strong>&nbsp;</strong></p></td><td style='width: 139px; height: 35px;'><input type='text' name='methods[]' id='item" + i + "' value='<?php echo $row3['methods'];?>' readonly></td><td style='width: 31px; height: 35px;'><p><strong>&nbsp;</strong></p></td><td style='width: 171px; height: 35px;'><center><select name='size[]' id='y" + i + "' data-validation='required' data-validation-depends-on='x" + i + "'><option value='' disabled selected><?php echo $row3['relative_size'];?></option><option value='verysmall'>Very Small</option><option value='small'>Small</option><option value='medium'>Medium</option><option value='large'>Large</option><option value='verylarge'>Very Large</option></select></center></td><td style='width: 10px; height: 35px;'><p><strong>&nbsp;</strong></p></td><td style='idth: 156px; height: 35px;'><input type='text' name='loc[]' class='toAdd' id='total" + i + "'  value='<?php echo $row3['loc'];?>' readonly></td></tr>");
+                $('#myTable tr.addMore').before("");
                 $('.toAdd, .toAdd2').trigger('click');
                 $('.toAdd, .toAdd2').trigger('keyup');
             }
             for(i=0;i<<?php echo $objectCount;?>;i++){
-                $('#myTable tr.addMoreObjectRow').before("<tr style='height: 35px;'><td style='width: 284px; height: 35px;'><input type='text' name='BA[]' id='base" + i + "' style='width: 280px;' value='<?php echo $row4['base_additions'];?>' readonly></td><td style='width: 31px; height: 35px;'><p>&nbsp;</p></td><td style='width: 139px; height: 35px;'><center><select name='type[]' id='x" + i + "'  data-validation='required' data-validation-depends-on='base" + i + "'><option value='' disabled selected><?php echo $row4['type'];?></option><option value='logic'>Logic</option><option value='io'>Input/Output</option><option value='calculation'>Calculation</option><option value='text'>Text</option><option value='data'>Data</option><option value='setup'>Set-Up</option></select></center></td><td style='width: 31px; height: 35px;'><p><strong>&nbsp;</strong></p></td><td style='width: 139px; height: 35px;'><input type='text' name='methods[]' id='item" + i + "' value='<?php echo $row4['methods'];?>' readonly></td><td style='width: 31px; height: 35px;'><p><strong>&nbsp;</strong></p></td><td style='width: 171px; height: 35px;'><center><select name='size[]' id='y" + i + "' data-validation='required' data-validation-depends-on='x" + i + "'><option value='' disabled selected><?php echo $row4['relative_size'];?></option><option value='verysmall'>Very Small</option><option value='small'>Small</option><option value='medium'>Medium</option><option value='large'>Large</option><option value='verylarge'>Very Large</option></select></center></td><td style='width: 10px; height: 35px;'><p><strong>&nbsp;</strong></p></td><td style='idth: 156px; height: 35px;'><input type='text' name='loc[]' class='toAdd2' id='total" + i + "'  value='<?php echo $row4['loc'];?>' readonly></td></tr>");
+                $('#myTable tr.addMoreObjectRow').before("");
                 $('.toAdd, .toAdd2').trigger('click');
                 $('.toAdd, .toAdd2').trigger('keyup');
             }
@@ -215,35 +214,12 @@ version 1.0
                             </td>
                         </tr>
                         
-                        <tr style="height: 35px;" class="addMore">
-                            <td style="width: 284px; height: 35px;">
-                                <p>&nbsp;</p>
-                            </td>
-                            <td style="width: 31px; height: 35px;">
-                                <p>&nbsp;</p>
-                            </td>
-                            <td style="width: 139px; height: 35px;">
-                                <p><strong>&nbsp;</strong></p>
-                            </td>
-                            <td style="width: 31px; height: 35px;">
-                                <p><strong>&nbsp;</strong></p>
-                            </td>
-                            <td style="width: 139px; height: 35px;">
-                                <p><strong>&nbsp;</strong></p>
-                            </td>
-                            <td style="width: 31px; height: 35px;">
-                                <p><strong>&nbsp;</strong></p>
-                            </td>
-                            <td style="width: 171px; height: 35px;">
-                                <p><strong>&nbsp;</strong></p>
-                            </td>
-                            <td style="width: 10px; height: 35px;">
-                                <p><strong>&nbsp;</strong></p>
-                            </td>
-                            <td style="width: 156px; height: 35px;">
-                                <p><strong>&nbsp;</strong></p>
-                            </td>
-                        </tr>
+                        <?php
+                        while ($row3 = mysql_fetch_array($rs3)) {
+                            echo "<tr style='height: 35px;'><td style='width: 284px; height: 35px;'><input type='text' name='BA[]' id='base' style='width: 280px;' value='". $row3['base_additions'] ."' readonly></td><td style='width: 31px; height: 35px;'><p>&nbsp;</p></td><td style='width: 139px; height: 35px;'><center><select name='type[]' id='x'  data-validation='required' data-validation-depends-on='base'><option value='' disabled selected>" . $row3['type'] . "</option><option value='logic'>Logic</option><option value='io'>Input/Output</option><option value='calculation'>Calculation</option><option value='text'>Text</option><option value='data'>Data</option><option value='setup'>Set-Up</option></select></center></td><td style='width: 31px; height: 35px;'><p><strong>&nbsp;</strong></p></td><td style='width: 139px; height: 35px;'><input type='text' name='methods[]' id='item' value='" . $row3['methods'] . "' readonly></td><td style='width: 31px; height: 35px;'><p><strong>&nbsp;</strong></p></td><td style='width: 171px; height: 35px;'><center><select name='size[]' id='y' data-validation='required' data-validation-depends-on='x'><option value='' disabled selected>" . $row3['relative_size'] . "</option><option value='verysmall'>Very Small</option><option value='small'>Small</option><option value='medium'>Medium</option><option value='large'>Large</option><option value='verylarge'>Very Large</option></select></center></td><td style='width: 10px; height: 35px;'><p><strong>&nbsp;</strong></p></td><td style='idth: 156px; height: 35px;'><input type='text' name='loc[]' class='toAdd' id='total'  value='" . $row3['loc'] . "' readonly></td></tr>";
+                        }
+                        ?>
+                        
                         <tr style="height: 35px;">
                             <td style="width: 284px; height: 35px;">
                                 <p style="text-align: left;">Total Base Additions (BA)</p>
@@ -332,35 +308,11 @@ version 1.0
                             </td>
                         </tr>
                         
-                        <tr style="height: 35px;" class="addMoreObjectRow">
-                            <td style="width: 284px; height: 35px;">
-                                <p>&nbsp;</p>
-                            </td>
-                            <td style="width: 31px; height: 35px;">
-                                <p>&nbsp;</p>
-                            </td>
-                            <td style="width: 139px; height: 35px;">
-                                <p><strong>&nbsp;</strong></p>
-                            </td>
-                            <td style="width: 31px; height: 35px;">
-                                <p>&nbsp;</p>
-                            </td>
-                            <td style="width: 139px; height: 35px;">
-                                <p><strong>&nbsp;</strong></p>
-                            </td>
-                            <td style="width: 31px; height: 35px;">
-                                <p>&nbsp;</p>
-                            </td>
-                            <td style="width: 171px; height: 35px;">
-                                <p><strong>&nbsp;</strong></p>
-                            </td>
-                            <td style="width: 10px; height: 35px;">
-                                <p>&nbsp;</p>
-                            </td>
-                            <td style="width: 156px; height: 35px;">
-                                <p><strong>&nbsp;</strong></p>
-                            </td>
-                        </tr>
+                        <?php
+                        while ($row4 = mysql_fetch_array($rs4)) {
+                            echo "<tr style='height: 35px;'><td style='width: 284px; height: 35px;'><input type='text' name='BA[]' id='base' style='width: 280px;' value='". $row4['base_additions'] ."' readonly></td><td style='width: 31px; height: 35px;'><p>&nbsp;</p></td><td style='width: 139px; height: 35px;'><center><select name='type[]' id='x'  data-validation='required' data-validation-depends-on='base'><option value='' disabled selected>" . $row4['type'] . "</option><option value='logic'>Logic</option><option value='io'>Input/Output</option><option value='calculation'>Calculation</option><option value='text'>Text</option><option value='data'>Data</option><option value='setup'>Set-Up</option></select></center></td><td style='width: 31px; height: 35px;'><p><strong>&nbsp;</strong></p></td><td style='width: 139px; height: 35px;'><input type='text' name='methods[]' id='item' value='" . $row4['methods'] . "' readonly></td><td style='width: 31px; height: 35px;'><p><strong>&nbsp;</strong></p></td><td style='width: 171px; height: 35px;'><center><select name='size[]' id='y' data-validation='required' data-validation-depends-on='x'><option value='' disabled selected>" . $row4['relative_size'] . "</option><option value='verysmall'>Very Small</option><option value='small'>Small</option><option value='medium'>Medium</option><option value='large'>Large</option><option value='verylarge'>Very Large</option></select></center></td><td style='width: 10px; height: 35px;'><p><strong>&nbsp;</strong></p></td><td style='idth: 156px; height: 35px;'><input type='text' name='loc[]' class='toAdd2' id='total'  value='" . $row4['loc'] . "' readonly></td></tr>";
+                        }
+                        ?>
                         <tr style="height: 35px;">
                             <td style="width: 284px; height: 35px;">
                                 <p>Total New Objects (NO)</p>
