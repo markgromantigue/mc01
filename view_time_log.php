@@ -12,7 +12,7 @@ if(isset($_GET['user_id'])){
 	$(document).ready(function(){
 		$("#addRow").on("click", function(){
 			$("#inputRows").append(
-				'<tr><td><input type="date" name="date[]" required></td><td><input type="time" name="start[]" required></td><td><input type="time" name="stop[]" required></td><td><input type="number" name="interrupt[]" min="0" required></td><td></td><td><input type="text" name="phase[]" required></td><td><input type="text" name="comments[]" required></td></tr>'
+				'<tr><td><input type="date" name="date[]" required></td><td><input type="time" name="start[]" required></td><td><input type="time" name="stop[]" required></td><td><input type="number" name="interrupt[]" min="0"></td><td></td><td><input type="text" name="phase[]" required></td><td><input type="text" name="comments[]"></td></tr>'
 				);
 		});
 	});
@@ -64,7 +64,7 @@ else
     while ($row = mysqli_fetch_array($result)) {
 		echo "<tr>\n<td>" . $row["date"] . "</td>\n<td>" . $row["start"] . "</td>\n<td>" . $row["stop"] . "</td>\n<td>" . $row["interruption_time"] . "</td>\n<td>" . $row["delta_time"] . "</td>\n<td>" . $row["phase"] . "</td>\n<td>" . $row["comments"] . "</td>\n<td><a href='edit_time_log.php?time_log_id=".$row['time_log_id']."&user_id=".$userId."&project_id=".$projectId."'><button class='btn' type='button'><strong><center>Edit</center></strong></button></a></td>\n<td><a href='view_time_log.php?time_log_id=".$row['time_log_id']."&user_id=".$userId."&project_id=".$projectId."'" ?> onclick="return confirm('Are you sure you want to delete this message?')";<?php echo "><button class='btn' type='button'><strong><center>Delete</center></strong></button></a></td></tr>\n";
 	}?>
-    <button type="button" id="addRow" style="float: right; margin-right: 15px;">Add Row</button>
+    
     <br><br>
     
     <tbody id="inputRows">
@@ -72,11 +72,14 @@ else
     
     <?php
     echo "</table>";
-    echo "</div>";
-}
+}//end of else
 
 ?>
-    <input type="submit" value="Submit" style="float: right; margin-right: 210px;">
+    <br>
+	<button type="button" id="addRow" style="float: right; margin-right: 15px;">Add Row</button>
+    <br><br>
+    <input type="submit" value="Submit" style="float: right; margin-right: 15px;">
     </form>
+    </div>
  </body>
 </html>

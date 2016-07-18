@@ -43,7 +43,7 @@
 	$(document).ready(function(){
 		$("#addRow").on("click", function(){
 			$("#inputRows").append(
-				'<tr><td><input type="date" name="date[]" required></td><td><input type="time" name="start[]" required></td><td><input type="time" name="stop[]" required></td><td><input type="number" name="interrupt[]" min="0" required></td><td><input type="text" name="phase[]" required></td><td><input type="text" name="comments[]" required></td></tr>'
+				'<tr><td><input type="date" name="date[]" required></td><td><input type="time" name="start[]" required></td><td><input type="time" name="stop[]" required></td><td><input type="number" name="interrupt[]" min="0"></td><td><input type="text" name="phase[]" required></td><td><input type="text" name="comments[]"></td></tr>'
 				);
 		});
 	});
