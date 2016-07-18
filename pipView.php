@@ -51,9 +51,17 @@
 
 <br>
 Problem Description:<br>
-<textarea rows="10" cols="70" name="problem" readonly><?php echo $row3['description'];?></textarea><br><br>
+<?php
+while ($row3 = mysql_fetch_array($rs3)) {
+	echo '<textarea rows="10" cols="70" name="problem" readonly>' . $row3['description'] . '</textarea><br><br>';
+}
+?>
 Proposal Description:<br>
-<textarea rows="10" cols="70" name="proposal" readonly><?php echo $row4['description'];?></textarea><br><br>
+<?php
+while ($row4 = mysql_fetch_array($rs4)) {
+	echo '<textarea rows="10" cols="70" name="problem" readonly>' . $row4['description'] . '</textarea><br><br>';
+}
+?>
 Notes:<br>
 <textarea rows="10" cols="70" name="notes" readonly><?php echo $row5['notes'];?></textarea><br>
 
