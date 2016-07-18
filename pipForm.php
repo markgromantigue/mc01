@@ -37,15 +37,24 @@
 <html>
 <head>
 <title>PIP Form</title>
+<script src="js/jquery.js"></script>
+<script>
+	$(document).ready(function(){
+		$("#addProblem").on("click",function() {
+			$("#inputProblem").append('<textarea rows="10" cols="70" name="problem[]" required></textarea><br><br>');
+		});
+		$("#addProposal").on("click",function() {
+			$("#inputProposal").append('<textarea rows="10" cols="70" name="proposal[]" required></textarea><br><br>');
+		});
+	});
+</script>
 </head>
 <body>
 <form action="pip.php?user_id=<?php echo $userId?>&project_id=<?php echo $projectId?>" method="post">
-
-<br>
-Problem Description:<br>
-<textarea rows="10" cols="70" name="problem" required></textarea><br><br>
-Proposal Description:<br>
-<textarea rows="10" cols="70" name="proposal" required></textarea><br><br>
+Problem Description:<br><button type="button" id="addProblem">Add Another Problem Description</button><br>
+<section id="inputProblem"><textarea rows="10" cols="70" name="problem[]" required></textarea><br><br></section>
+Proposal Description:<br><button type="button" id="addProposal">Add Another Proposal Description</button><br>
+<section id="inputProposal"><textarea rows="10" cols="70" name="proposal[]" required></textarea><br><br></section>
 Notes:<br>
 <textarea rows="10" cols="70" name="notes" required></textarea><br>
 <input type="submit" name="Submit">
