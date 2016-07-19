@@ -7,19 +7,28 @@ if(isset($_GET['user_id'])){
         $projectId = $_GET['project_id'];
 }
     
-$pLOCHour = $_POST["plochour"];
-$aLOCHour = $_POST["alochour"];
-$pTime = $_POST["ptime"];
-$aTime = $_POST["atime"];
-$pBLOC = $_POST["pbloc"];
-$pDLOC = $_POST["pdloc"];
-$pMLOC = $_POST["pmloc"];
-$pALOC = $_POST["paloc"];
-$pRLOC = $_POST["prloc"];
+$sql = "SELECT base_size FROM base_program WHERE user_id = '" . $userId . "' AND project_id = '" . $projectId . "'";
+$rs = mysql_fetch_array($rs);
+$pBLOC = $row['base_size'];
+$sql = "SELECT loc_deleted FROM base_program WHERE user_id = '" . $userId . "' AND project_id = '" . $projectId . "'";
+$rs = mysql_fetch_array($rs);
+$pDLOC = $row['base_size'];
+$sql = "SELECT loc_modified FROM base_program WHERE user_id = '" . $userId . "' AND project_id = '" . $projectId . "'";
+$rs = mysql_fetch_array($rs);
+$pMLOC = $row['base_size'];
+$sql = "SELECT loc FROM projected_loc WHERE user_id = '" . $userId . "' AND project_id = '" . $projectId . "'";
+$rs = mysql_fetch_array($rs);
+$BA = $row['loc'];
+$sql = "SELECT loc FROM new_objects WHERE user_id = '" . $userId . "' AND project_id = '" . $projectId . "'";
+$rs = mysql_fetch_array($rs);
+$NO = $row['loc'];
+$pALOC = $BA + $NO;
+$sql = "SELECT sum(loc) FROM reused_objects WHERE user_id = '" . $userId . "' AND project_id = '" . $projectId . "'";
+$rs = mysql_fetch_array($rs);
+$pRLOC = $row['sum(loc)'];
 $pNLOC = $pMLOC + $pALOC;
 $pLLOC = $pALOC + $pBLOC + $pRLOC - $pDLOC;
 $pTLOC = $_POST["ptloc"];
-$aBLOC = $_POST["abloc"];
 $aDLOC = $_POST["adloc"];
 $aMLOC = $_POST["amloc"];
 $aALOC = $_POST["aaloc"];
@@ -38,13 +47,27 @@ $pCompile = $_POST["pcompile"];
 $pTest = $_POST["ptest"];
 $pPostmortem = $_POST["ppostmortem"];
 $pTotal = $pPlanning + $pDesign + $pCode + $pCompile + $pTest + $pPostmortem;
-$aPlanning = $_POST["aplanning"];
-$aDesign = $_POST["adesign"];
-$aCode = $_POST["acode"];
-$aCompile = $_POST["acompile"];
-$aTest = $_POST["atest"];
-$aPostmortem = $_POST["apostmortem"];
+$pLOCHour = $pNLOC / $pTotal;
+$sql = "SELECT sum(delta_time) FROM time_recording_log WHERE user_id = '" . $userId . "' AND project_id = '" . $projectId . "' AND phase = 'Planning'";
+$rs = mysql_fetch_array($rs);
+$aPlanning = $row['sum(delta_time)'];
+$sql = "SELECT sum(delta_time) FROM time_recording_log WHERE user_id = '" . $userId . "' AND project_id = '" . $projectId . "' AND phase = 'Design'";
+$rs = mysql_fetch_array($rs);
+$aDesign = $row['sum(delta_time)'];
+$sql = "SELECT sum(delta_time) FROM time_recording_log WHERE user_id = '" . $userId . "' AND project_id = '" . $projectId . "' AND phase = 'Code'";
+$rs = mysql_fetch_array($rs);
+$aCode = $row['sum(delta_time)'];
+$sql = "SELECT sum(delta_time) FROM time_recording_log WHERE user_id = '" . $userId . "' AND project_id = '" . $projectId . "' AND phase = 'Compile'";
+$rs = mysql_fetch_array($rs);
+$aCompile = $row['sum(delta_time)'];
+$sql = "SELECT sum(delta_time) FROM time_recording_log WHERE user_id = '" . $userId . "' AND project_id = '" . $projectId . "' AND phase = 'Test'";
+$rs = mysql_fetch_array($rs);
+$aTest = $row['sum(delta_time)'];
+$sql = "SELECT sum(delta_time) FROM time_recording_log WHERE user_id = '" . $userId . "' AND project_id = '" . $projectId . "' AND phase = 'Postmortem'";
+$rs = mysql_fetch_array($rs);
+$aPostmortem = $row['sum(delta_time)'];
 $aTotal = $aPlanning + $aDesign + $aCode + $aCompile + $aTest + $aPostmortem;
+$aLOCHour = $aNLOC / $aTotal;
 $dPlanning = $_POST["dplanning"];
 $dDesign = $_POST["ddesign"];
 $dCode = $_POST["dcode"];
@@ -69,8 +92,8 @@ $sql = "SELECT * FROM summary_to_date WHERE user_id = '" . $userId . "'";
 $result = mysqli_query($con,$sql);
 $rows = mysqli_num_rows($result);
 if ($rows == 0) {
-	$tPlanTime = $pTime;
-	$tActualTime = $aTime;
+	$tPlanTime = $pTotal;
+	$tActualTime = $aTotal;
 } else {
 	$tPlanTime = 0;
 	$tActualTime = 0;
@@ -78,8 +101,8 @@ if ($rows == 0) {
 		$tPlanTime = max($tPlanTime,$row['planned_time']);
 		$tActualTime = max($tActualTime,$row['actual_time']);
 	}
-	$tPlanTime = $tPlanTime + $pTime;
-	$tActualTime = $tActualTime + $aTime;
+	$tPlanTime = $tPlanTime + $pTotal;
+	$tActualTime = $tActualTime + $aTotal;
 }
 $cpi = $tPlanTime / $tActualTime;
 $sql = "SELECT * FROM program_size_to_date WHERE user_id = '" . $userId . "'";
@@ -144,6 +167,7 @@ if ($rows == 0) {
 	$tPostmortem = $tPostmortem + $aPostmortem;
 	$tTotal = $tTotal + $aTotal;
 }
+$tLOCHour = $tNLOC / $tTotal;
 $tPPlanning = 100 * $tPlanning / $tTotal;
 $tPDesign = 100 * $tDesign / $tTotal;
 $tPCode = 100 * $tCode / $tTotal;
@@ -232,11 +256,11 @@ $tRPCompile = 100 * $tRCompile / $tRTotal;
 $tRPTest = 100 * $tRTest / $tRTotal;
 $tRPTotal = 100;
 
-$sql = "INSERT INTO summary_plan(user_id,project_id,loc_per_hour,planned_time,percent_reused,percent_new_reused) VALUES('" . $userId . "','" . $projectId . "','" . $pLOCHour . "','" . $pTime . "','" . $pReused . "','" . $pNReused . "')";
+$sql = "INSERT INTO summary_plan(user_id,project_id,loc_per_hour,planned_time,percent_reused,percent_new_reused) VALUES('" . $userId . "','" . $projectId . "','" . $pLOCHour . "','" . $pTotal . "','" . $pReused . "','" . $pNReused . "')";
 $result = mysqli_query($con,$sql) or die(mysqli_error($con));
-$sql = "INSERT INTO summary_actual(user_id,project_id,loc_per_hour,actual_time,percent_reused,percent_new_reused) VALUES('" . $userId . "','" . $projectId . "','" . $aLOCHour . "','" . $aTime . "','" . $aReused . "','" . $aNReused . "')";
+$sql = "INSERT INTO summary_actual(user_id,project_id,loc_per_hour,actual_time,percent_reused,percent_new_reused) VALUES('" . $userId . "','" . $projectId . "','" . $aLOCHour . "','" . $aTotal . "','" . $aReused . "','" . $aNReused . "')";
 $result = mysqli_query($con,$sql) or die(mysqli_error($con));
-$sql = "INSERT INTO summary_to_date(user_id,project_id,planned_time,actual_time,cpi,percent_reused,percent_new_reused) VALUES('" . $userId . "','" . $projectId . "','" . $tPlanTime . "','" . $tActualTime . "','" . $cpi . "','".  $tReused . "','" . $tNReused . "')";
+$sql = "INSERT INTO summary_to_date(user_id,project_id,loc_per_hour,planned_time,actual_time,cpi,percent_reused,percent_new_reused) VALUES('" . $userId . "','" . $projectId . "','" . $tLOCHour . "','" . $tPlanTime . "','" . $tActualTime . "','" . $cpi . "','".  $tReused . "','" . $tNReused . "')";
 $result = mysqli_query($con,$sql) or die(mysqli_error($con));
 $sql = "INSERT INTO program_size_plan(user_id,project_id,base,deleted,modified,added,reused,total_new_and_changed,total_loc,total_new_reused) VALUES('" . $userId . "','" . $projectId . "','" . $pBLOC . "','" . $pDLOC . "','" . $pMLOC . "','" . $pALOC . "','" . $pRLOC . "','" . $pNLOC . "','" . $pLLOC . "','" . $pTLOC . "')";
 $result = mysqli_query($con,$sql) or die(mysqli_error($con));

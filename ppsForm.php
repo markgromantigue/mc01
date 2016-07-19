@@ -40,19 +40,8 @@
 </head>
 <body>
 <form action="pps.php?user_id=<?php echo $userId?>&project_id=<?php echo $projectId?>" method="post">
-<b>Summary:</b><br>
-Planned LOC/hour: <input type="number" name="plochour" required><br>
-Actual LOC/hour: <input type="number" name="alochour" required><br>
-Planned Time: <input type="number" name="ptime" required><br>
-Actual Time: <input type="number" name="atime" required><br><br>
 <b>Program Size (LOC):</b><br>
-Planned Base LOC: <input type="number" name="pbloc" required><br>
-Planned Deleted LOC: <input type="number" name="pdloc" required><br>
-Planned Modified LOC: <input type="number" name="pmloc" required><br>
-Planned Added LOC: <input type="number" name="paloc" required><br>
-Planned Reused LOC: <input type="number" name="prloc" required><br>
 Planned Total New Reused LOC: <input type="number" name="ptloc" required><br>
-Actual Base LOC: <input type="number" name="abloc" required><br>
 Actual Deleted LOC: <input type="number" name="adloc" required><br>
 Actual Modified LOC: <input type="number" name="amloc" required><br>
 Actual Added LOC: <input type="number" name="aaloc" required><br>
@@ -64,13 +53,7 @@ Plan Design: <input type="number" name="pdesign" required><br>
 Plan Code: <input type="number" name="pcode" required><br>
 Plan Compile: <input type="number" name="pcompile" required><br>
 Plan Test: <input type="number" name="ptest" required><br>
-Plan Postmortem: <input type="number" name="ppostmortem" required><br>
-Actual Planning: <input type="number" name="aplanning" required><br>
-Actual Design: <input type="number" name="adesign" required><br>
-Actual Code: <input type="number" name="acode" required><br>
-Actual Compile: <input type="number" name="acompile" required><br>
-Actual Test: <input type="number" name="atest" required><br>
-Actual Postmortem: <input type="number" name="apostmortem" required><br><br>
+Plan Postmortem: <input type="number" name="ppostmortem" required><br><br>
 <b>Defects Injected:</b><br>
 Planning: <input type="number" name="dplanning" required><br>
 Design: <input type="number" name="ddesign" required><br>
