@@ -8,24 +8,24 @@ if(isset($_GET['user_id'])){
 }
     
 $sql = "SELECT base_size FROM base_program WHERE user_id = '" . $userId . "' AND project_id = '" . $projectId . "'";
-$rs = mysql_fetch_array($rs);
-$pBLOC = $row['base_size'];
+$rs = mysqli_fetch_array(mysqli_query($con,$sql));
+$pBLOC = $rs['base_size'];
 $sql = "SELECT loc_deleted FROM base_program WHERE user_id = '" . $userId . "' AND project_id = '" . $projectId . "'";
-$rs = mysql_fetch_array($rs);
-$pDLOC = $row['base_size'];
+$rs = mysqli_fetch_array(mysqli_query($con,$sql));
+$pDLOC = $rs['loc_deleted'];
 $sql = "SELECT loc_modified FROM base_program WHERE user_id = '" . $userId . "' AND project_id = '" . $projectId . "'";
-$rs = mysql_fetch_array($rs);
-$pMLOC = $row['base_size'];
+$rs = mysqli_fetch_array(mysqli_query($con,$sql));
+$pMLOC = $rs['loc_modified'];
 $sql = "SELECT loc FROM projected_loc WHERE user_id = '" . $userId . "' AND project_id = '" . $projectId . "'";
-$rs = mysql_fetch_array($rs);
-$BA = $row['loc'];
+$rs = mysqli_fetch_array(mysqli_query($con,$sql));
+$BA = $rs['loc'];
 $sql = "SELECT loc FROM new_objects WHERE user_id = '" . $userId . "' AND project_id = '" . $projectId . "'";
-$rs = mysql_fetch_array($rs);
-$NO = $row['loc'];
+$rs = mysqli_fetch_array(mysqli_query($con,$sql));
+$NO = $rs['loc'];
 $pALOC = $BA + $NO;
 $sql = "SELECT sum(loc) FROM reused_objects WHERE user_id = '" . $userId . "' AND project_id = '" . $projectId . "'";
-$rs = mysql_fetch_array($rs);
-$pRLOC = $row['sum(loc)'];
+$rs = mysqli_fetch_array(mysqli_query($con,$sql));
+$pRLOC = $rs['sum(loc)'];
 $pNLOC = $pMLOC + $pALOC;
 $pLLOC = $pALOC + $pBLOC + $pRLOC - $pDLOC;
 $pTLOC = $_POST["ptloc"];
@@ -34,7 +34,7 @@ $aMLOC = $_POST["amloc"];
 $aALOC = $_POST["aaloc"];
 $aRLOC = $_POST["arloc"];
 $aNLOC = $aMLOC + $aALOC;
-$aLLOC = $aALOC + $aBLOC + $aRLOC - $aDLOC;
+$aLLOC = $aALOC + $pBLOC + $aRLOC - $aDLOC;
 $aTLOC = $_POST["atloc"];
 $pReused = 100 * $pRLOC / $pLLOC;
 $pNReused = 100 * $pRLOC / $pNLOC;
@@ -49,23 +49,23 @@ $pPostmortem = $_POST["ppostmortem"];
 $pTotal = $pPlanning + $pDesign + $pCode + $pCompile + $pTest + $pPostmortem;
 $pLOCHour = $pNLOC / $pTotal;
 $sql = "SELECT sum(delta_time) FROM time_recording_log WHERE user_id = '" . $userId . "' AND project_id = '" . $projectId . "' AND phase = 'Planning'";
-$rs = mysql_fetch_array($rs);
-$aPlanning = $row['sum(delta_time)'];
+$rs = mysqli_fetch_array(mysqli_query($con,$sql));
+$aPlanning = $rs['sum(delta_time)'];
 $sql = "SELECT sum(delta_time) FROM time_recording_log WHERE user_id = '" . $userId . "' AND project_id = '" . $projectId . "' AND phase = 'Design'";
-$rs = mysql_fetch_array($rs);
-$aDesign = $row['sum(delta_time)'];
+$rs = mysqli_fetch_array(mysqli_query($con,$sql));
+$aDesign = $rs['sum(delta_time)'];
 $sql = "SELECT sum(delta_time) FROM time_recording_log WHERE user_id = '" . $userId . "' AND project_id = '" . $projectId . "' AND phase = 'Code'";
-$rs = mysql_fetch_array($rs);
-$aCode = $row['sum(delta_time)'];
+$rs = mysqli_fetch_array(mysqli_query($con,$sql));
+$aCode = $rs['sum(delta_time)'];
 $sql = "SELECT sum(delta_time) FROM time_recording_log WHERE user_id = '" . $userId . "' AND project_id = '" . $projectId . "' AND phase = 'Compile'";
-$rs = mysql_fetch_array($rs);
-$aCompile = $row['sum(delta_time)'];
+$rs = mysqli_fetch_array(mysqli_query($con,$sql));
+$aCompile = $rs['sum(delta_time)'];
 $sql = "SELECT sum(delta_time) FROM time_recording_log WHERE user_id = '" . $userId . "' AND project_id = '" . $projectId . "' AND phase = 'Test'";
-$rs = mysql_fetch_array($rs);
-$aTest = $row['sum(delta_time)'];
+$rs = mysqli_fetch_array(mysqli_query($con,$sql));
+$aTest = $rs['sum(delta_time)'];
 $sql = "SELECT sum(delta_time) FROM time_recording_log WHERE user_id = '" . $userId . "' AND project_id = '" . $projectId . "' AND phase = 'Postmortem'";
-$rs = mysql_fetch_array($rs);
-$aPostmortem = $row['sum(delta_time)'];
+$rs = mysqli_fetch_array(mysqli_query($con,$sql));
+$aPostmortem = $rs['sum(delta_time)'];
 $aTotal = $aPlanning + $aDesign + $aCode + $aCompile + $aTest + $aPostmortem;
 $aLOCHour = $aNLOC / $aTotal;
 $dPlanning = $_POST["dplanning"];
@@ -97,9 +97,9 @@ if ($rows == 0) {
 } else {
 	$tPlanTime = 0;
 	$tActualTime = 0;
-	while ($row = mysqli_fetch_array($result)) {
-		$tPlanTime = max($tPlanTime,$row['planned_time']);
-		$tActualTime = max($tActualTime,$row['actual_time']);
+	while ($rs = mysqli_fetch_array($result)) {
+		$tPlanTime = max($tPlanTime,$rs['planned_time']);
+		$tActualTime = max($tActualTime,$rs['actual_time']);
 	}
 	$tPlanTime = $tPlanTime + $pTotal;
 	$tActualTime = $tActualTime + $aTotal;
@@ -118,11 +118,11 @@ if ($rows == 0) {
 	$tNLOC = 0;
 	$tLLOC = 0;
 	$tTLOC = 0;
-	while ($row = mysqli_fetch_array($result)) {
-		$tRLOC = max($tRLOC,$row['reused']);
-		$tNLOC = max($tNLOC,$row['total_new_and_changed']);
-		$tLLOC = max($tLLOC,$row['total_loc']);
-		$tTLOC = max($tTLOC,$row['total_new_reused']);
+	while ($rs = mysqli_fetch_array($result)) {
+		$tRLOC = max($tRLOC,$rs['reused']);
+		$tNLOC = max($tNLOC,$rs['total_new_and_changed']);
+		$tLLOC = max($tLLOC,$rs['total_loc']);
+		$tTLOC = max($tTLOC,$rs['total_new_reused']);
 	}
 	$tRLOC = $tRLOC + $aRLOC;
 	$tNLOC = $tNLOC + $aNLOC;
@@ -150,14 +150,14 @@ if ($rows == 0) {
 	$tTest = 0;
 	$tPostmortem = 0;
 	$tTotal = 0;
-	while ($row = mysqli_fetch_array($result)) {
-		$tPlanning = max($tPlanning,$row['planning']);
-		$tDesign = max($tDesign,$row['design']);
-		$tCode = max($tCode,$row['code']);
-		$tCompile = max($tCompile,$row['compile']);
-		$tTest = max($tTest,$row['test']);
-		$tPostmortem = max($tPostmortem,$row['postmortem']);
-		$tTotal = max($tTotal,$row['total']);
+	while ($rs = mysqli_fetch_array($result)) {
+		$tPlanning = max($tPlanning,$rs['planning']);
+		$tDesign = max($tDesign,$rs['design']);
+		$tCode = max($tCode,$rs['code']);
+		$tCompile = max($tCompile,$rs['compile']);
+		$tTest = max($tTest,$rs['test']);
+		$tPostmortem = max($tPostmortem,$rs['postmortem']);
+		$tTotal = max($tTotal,$rs['total']);
 	}
 	$tPlanning = $tPlanning + $aPlanning;
 	$tDesign = $tDesign + $aDesign;
@@ -192,13 +192,13 @@ if ($rows == 0) {
 	$tDCompile = 0;
 	$tDTest = 0;
 	$tDTotal = 0;
-	while ($row = mysqli_fetch_array($result)) {
-		$tDPlanning = max($tDPlanning,$row['planning']);
-		$tDDesign = max($tDDesign,$row['design']);
-		$tDCode = max($tDCode,$row['code']);
-		$tDCompile = max($tDCompile,$row['compile']);
-		$tDTest = max($tDTest,$row['test']);
-		$tDTotal = max($tDTotal,$row['total_development']);
+	while ($rs = mysqli_fetch_array($result)) {
+		$tDPlanning = max($tDPlanning,$rs['planning']);
+		$tDDesign = max($tDDesign,$rs['design']);
+		$tDCode = max($tDCode,$rs['code']);
+		$tDCompile = max($tDCompile,$rs['compile']);
+		$tDTest = max($tDTest,$rs['test']);
+		$tDTotal = max($tDTotal,$rs['total_development']);
 	}
 	$tDPlanning = $tDPlanning + $dPlanning;
 	$tDDesign = $tDDesign + $dDesign;
@@ -232,14 +232,14 @@ if ($rows == 0) {
 	$tRTest = 0;
 	$tRTotal = 0;
 	$rADevelopment = 0;
-	while ($row = mysqli_fetch_array($result)) {
-		$tRPlanning = max($tRPlanning,$row['planning']);
-		$tRDesign = max($tRDesign,$row['design']);
-		$tRCode = max($tRCode,$row['code']);
-		$tRCompile = max($tRCompile,$row['compile']);
-		$tRTest = max($tRTest,$row['test']);
-		$tRTotal = max($tRTotal,$row['total_development']);
-		$rADevelopment = max($rADevelopment,$row['after_development']);
+	while ($rs = mysqli_fetch_array($result)) {
+		$tRPlanning = max($tRPlanning,$rs['planning']);
+		$tRDesign = max($tRDesign,$rs['design']);
+		$tRCode = max($tRCode,$rs['code']);
+		$tRCompile = max($tRCompile,$rs['compile']);
+		$tRTest = max($tRTest,$rs['test']);
+		$tRTotal = max($tRTotal,$rs['total_development']);
+		$rADevelopment = max($rADevelopment,$rs['after_development']);
 	}
 	$tRPlanning = $tRPlanning + $rPlanning;
 	$tRDesign = $tRDesign + $rDesign;

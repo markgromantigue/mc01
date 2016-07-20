@@ -205,7 +205,7 @@ To-Date % Planning: <input type="number" name="trplanning" value="<?php echo $ro
 To-Date % Design: <input type="number" name="trdesign" value="<?php echo $row18['design'];?>" readonly><br>
 To-Date % Code: <input type="number" name="trcode" value="<?php echo $row18['code'];?>" readonly><br>
 To-Date % Compile: <input type="number" name="trcompile" value="<?php echo $row18['compile'];?>" readonly><br>
-To-Date % Test: <input type="number" name="trtest" value="<?php echo $row18['test'];?>" readonly><br><br>
+To-Date % Test: <input type="number" name="trtest" value="<?php echo $row18['test'];?>" readonly><br>
 To-Date % Total: <input type="number" name="trtotal" value="<?php echo $row18['total_development'];?>" readonly><br>
 </body>
 </html>
