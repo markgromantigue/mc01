@@ -42,9 +42,15 @@ if(isset($_GET['user_id'])){
 
 if(isset($_GET['msg'])){
 		$msg = $_GET['msg'];
-		if ($msg ==  "edit"){
+		if ($msg == "edit"){
 			?> <script> alert("Time log updated successfully!"); </script> <?php
 		}
+        else if($msg == "fail"){
+            ?> <script> alert("Update failed! Delta time is negative."); </script> <?php
+        }
+        else if($msg == "inc"){
+            ?> <script> alert("Some row/s not added successfully. Delta time is negative."); </script> <?php
+        }
 }
 
 $con = mysqli_connect('localhost', 'root', '1234', 'advanse_mc01');
