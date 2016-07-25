@@ -33,15 +33,15 @@
     
     $strSQL3 = "SELECT * FROM `pip_form` WHERE `user_id` = '" . $userId . "' AND `project_id` = '" . $projectId . "' AND `type` = 'problem'";
     $rs3 = mysql_query($strSQL3);
-    $row3 = mysql_fetch_array($rs3);
+    //$row3 = mysql_fetch_array($rs3);
     
     $strSQL4 = "SELECT * FROM `pip_form` WHERE `user_id` = '" . $userId . "' AND `project_id` = '" . $projectId . "' AND `type` = 'proposal'";
     $rs4 = mysql_query($strSQL4);
-    $row4 = mysql_fetch_array($rs4);
+    //$row4 = mysql_fetch_array($rs4);
     
     $strSQL5 = "SELECT * FROM `pip_notes` WHERE `user_id` = '" . $userId . "' AND `project_id` = '" . $projectId . "'";
     $rs5 = mysql_query($strSQL5);
-    $row5 = mysql_fetch_array($rs5);
+    //$row5 = mysql_fetch_array($rs5);
 ?>
 <html>
 <head>
