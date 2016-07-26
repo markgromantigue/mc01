@@ -41,7 +41,7 @@
     
     $strSQL5 = "SELECT * FROM `pip_notes` WHERE `user_id` = '" . $userId . "' AND `project_id` = '" . $projectId . "'";
     $rs5 = mysql_query($strSQL5);
-    //$row5 = mysql_fetch_array($rs5);
+    $row5 = mysql_fetch_array($rs5);
 ?>
 <html>
 <head>
